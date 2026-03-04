@@ -17,11 +17,10 @@ install.packages("httpuv")
 ```
 
 ### Install Package
-Install the package from the command line:
-From the command line in the `playerdatar` directory:
+From the repo root:
 
 ```bash
-R CMD INSTALL .
+R CMD INSTALL playerdatar
 ```
 
 Then in R:
@@ -49,9 +48,10 @@ client <- create_gql_client(
 result <- execute_query(client, '{ sports { id name } }')
 ```
 
-Or run the example script:
+Or run the example script (from the package directory):
 
 ```bash
+cd playerdatar
 export CLIENT_ID="your-client-id"
 export CLIENT_SECRET="your-client-secret"
 Rscript example_using_client_credentials.r
@@ -129,23 +129,26 @@ result <- execute_mutation(
 ## Project Structure
 
 ```
-playerdatar/
-├── R/                    # Package source
-│   ├── client.R          # GraphQL client creation
-│   ├── oauth.R           # OAuth 2 flows
-│   ├── operations.R      # execute_query, execute_mutation
-│   └── utils.R           # Utilities
-├── queries/              # Example GraphQL queries and mutations
-│   ├── sports.graphql
-│   ├── club_sessions.graphql
-│   ├── club_sessions_filtered_by_time_range.graphql
-│   ├── session_details.graphql
-│   ├── session_metrics.graphql
-│   ├── session_participations_urls.graphql
-│   └── update_session.graphql
-├── example_using_client_credentials.r
-├── example_using_authorization_code.r
-└── vignettes/
+playerdatar/              # repo root
+├── README.md
+├── LICENSE
+├── playerdatar/          # R package
+│   ├── R/                # Package source
+│   │   ├── client.R      # GraphQL client creation
+│   │   ├── oauth.R       # OAuth 2 flows
+│   │   ├── operations.R  # execute_query, execute_mutation
+│   │   └── utils.R       # Utilities
+│   ├── queries/          # Example GraphQL queries and mutations
+│   │   ├── sports.graphql
+│   │   ├── club_sessions.graphql
+│   │   ├── club_sessions_filtered_by_time_range.graphql
+│   │   ├── session_details.graphql
+│   │   ├── session_metrics.graphql
+│   │   ├── session_participations_urls.graphql
+│   │   └── update_session.graphql
+│   ├── example_using_client_credentials.r
+│   ├── example_using_authorization_code.r
+│   └── vignettes/
 ```
 
 ### Example Queries
@@ -153,7 +156,7 @@ playerdatar/
 GraphQL queries and mutations are stored as `.graphql` files in `playerdatar/queries/`. The example scripts load these files and pass them to `execute_query()` or `execute_mutation()`. For queries with variables, use `query_name` to match the operation name in the file (e.g. `SessionDetails` for `session_details.graphql`).
 
 ```r
-# Load a query from file
+# Load a query from file (run from playerdatar/ package directory)
 read_query <- function(filename) {
   paste(readLines(file.path("queries", filename), warn = FALSE), collapse = "\n")
 }
@@ -173,4 +176,4 @@ result <- execute_query(
 - Simple API for queries and mutations
 - Built on `ghql` package
 
-See `example_using_client_credentials.r` and `example_using_authorization_code.r` for more examples.
+See `playerdatar/example_using_client_credentials.r` and `playerdatar/example_using_authorization_code.r` for more examples.
