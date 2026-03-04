@@ -6,3 +6,5 @@
 .token
 man/
 NAMESPACE
+
+.DS_Store
