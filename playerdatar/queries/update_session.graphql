@@ -1,0 +1,10 @@
+mutation UpdateSession($id: ID!, $attributes: SessionAttributesInput!) {
+  updateSession(id: $id, attributes: $attributes) {
+    errors {
+      fullMessages
+    }
+    session {
+      startTime
+    }
+  }
+}

@@ -1,0 +1,22 @@
+Package: playerdatar
+Type: Package
+Title: PlayerData R Wrapper
+Version: 0.1.0
+Description: An R wrapper for making GraphQL requests with OAuth 2 
+    authentication using the ghql package. Supports both client credentials 
+    and authorization code OAuth flows.
+Authors@R: person("PlayerData", email = "data-analysis@playerdata.co.uk", role = c("aut", "cre"))
+License: MIT + file LICENSE
+Encoding: UTF-8
+LazyData: true
+Imports:
+    ghql,
+    httr,
+    jsonlite
+Suggests:
+    httpuv,
+    knitr,
+    rmarkdown,
+    testthat,
+    mockery
+RoxygenNote: 7.3.3

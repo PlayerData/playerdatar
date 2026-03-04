@@ -1,0 +1,7 @@
+query ClubSessions($clubId: ID!) {
+  sessions(filter: { clubIdEq: $clubId }) {
+    id
+    startTime
+    endTime
+  }
+}

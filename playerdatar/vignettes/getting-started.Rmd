@@ -1,0 +1,166 @@
+---
+title: "Getting Started with PlayerDataR"
+author: "PlayerData"
+date: "`r Sys.Date()`"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{Getting Started with PlayerDataR}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r setup, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>",
+  eval = FALSE  # Set to TRUE to run code chunks
+)
+```
+
+# Introduction
+
+PlayerDataR is an R wrapper for making GraphQL requests with OAuth 2 authentication. This vignette will guide you through the basics of using the package.
+
+## Installation
+
+First, install the package and its dependencies:
+
+```{r install}
+# Install dependencies
+install.packages(c("ghql", "httr", "jsonlite"))
+
+# For authorization code flow (optional but recommended)
+install.packages("httpuv")
+```
+
+## Loading the Package
+
+```{r load}
+library(playerdatar)
+```
+
+## OAuth Authentication
+
+PlayerDataR supports two OAuth 2 grant types:
+
+### Client Credentials Flow (Default)
+
+This is the simplest flow, suitable for server-to-server communication:
+
+```{r client-credentials}
+client <- create_gql_client(
+  client_id = "your-client-id",
+  client_secret = "your-client-secret",
+  grant_type = "client_credentials"
+)
+```
+
+### Authorization Code Flow
+
+This flow requires user interaction through a browser:
+
+```{r auth-code}
+client <- create_gql_client(
+  client_id = "your-client-id",
+  client_secret = "your-client-secret",
+  grant_type = "authorization_code"
+)
+```
+
+When using the authorization code flow, a browser window will open for authentication.
+
+## Executing Queries
+
+### Simple Query
+
+```{r simple-query}
+query <- '{
+  sports {
+    id
+    name
+    isIndoor
+  }
+}'
+
+result <- execute_query(client, query)
+print(result)
+```
+
+### Query with Variables
+
+```{r query-variables}
+query <- 'query GetSessions($clubId: ID!) {
+  sessions(filter: { clubIdEq: $clubId }) {
+    id
+    startTime
+    endTime
+  }
+}'
+
+variables <- list(clubId = "your-club-id")
+result <- execute_query(
+  client, 
+  query, 
+  query_name = "GetSessions",
+  variables = variables
+)
+```
+
+## Executing Mutations
+
+```{r mutation-update-session}
+mutation <- '
+mutation UpdateSession($id: ID!, $attributes: SessionAttributesInput!) {
+  updateSession(id: $id, attributes: $attributes) {
+    errors {
+      fullMessages
+    }
+    session {
+      startTime
+    }
+  }
+}
+'
+
+result <- execute_mutation(
+  client,
+  mutation,
+  mutation_name = "UpdateSession",
+  variables = list(
+    id = "your-session-id",
+    attributes = list(startTime = "2026-01-01T17:59:00.000Z") # ISO 8601 format
+  )
+)
+```
+
+## Token Management
+
+The package automatically handles token refresh. If you need to manually refresh a token:
+
+```{r refresh-token}
+refresh_client_token(client)
+```
+
+Tokens are cached in a file (default: `.token`) to avoid unnecessary authentication requests.
+
+## Custom Configuration
+
+You can customize the GraphQL endpoint and OAuth URLs:
+
+```{r custom-config}
+client <- create_gql_client(
+  client_id = "your-client-id",
+  client_secret = "your-client-secret",
+  url = "https://app.playerdata.co.uk/api/graphql",
+  token_url = "https://app.playerdata.co.uk/oauth/token",
+  authorize_url = "https://app.playerdata.co.uk/oauth/authorize",
+  token_file = ".token",
+  port = 8080
+)
+```
+
+## Next Steps
+
+- See `?create_gql_client` for all available options
+- Check `?execute_query` and `?execute_mutation` for detailed function documentation
+- Review the example script in `example.r` for more examples

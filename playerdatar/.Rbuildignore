@@ -1,0 +1,4 @@
+^gqlr_client\.R$
+^gqlr_client/$
+^\.token$
+^\.Rproj\.user$

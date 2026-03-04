@@ -1,0 +1,7 @@
+{
+  sports {
+    id
+    name
+    isIndoor
+  }
+}
