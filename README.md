@@ -4,23 +4,24 @@ A simple R wrapper for making GraphQL requests with OAuth 2 authentication using
 
 ## Installation
 
-### Install Dependencies
+### Option 1: Install from GitHub (recommended)
+
+If you have access to the repository:
 
 ```r
-install.packages(c("ghql", "httr", "jsonlite"))
+install.packages("devtools")
+devtools::install_github("PlayerData/playerdatar", subdir = "playerdatar")
 ```
 
-For authorization code flow, `httpuv` is recommended:
+> **Note:** Use `"PlayerData/playerdatar"` (owner/repo), not the full URL.
 
-```r
-install.packages("httpuv")
-```
+### Option 2: Install from a local clone
 
-### Install Package
-From the repo root:
+If you've cloned the repo:
 
 ```bash
-R CMD INSTALL playerdatar
+cd playerdatar                    # repo root (the folder containing the playerdatar/ package subfolder)
+R CMD INSTALL playerdatar          # install the package
 ```
 
 Then in R:
