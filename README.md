@@ -49,13 +49,14 @@ client <- create_gql_client(
 result <- execute_query(client, '{ sports { id name } }')
 ```
 
-Or run the example script (from the package directory):
+Or run an example script:
 
 ```bash
 cd playerdatar
 export CLIENT_ID="your-client-id"
 export CLIENT_SECRET="your-client-secret"
-Rscript example_using_client_credentials.r
+export CLUB_ID="your-club-id"
+Rscript examples/direct/quick_start_client_credentials.R
 ```
 
 ## OAuth Flows
@@ -127,39 +128,42 @@ result <- execute_mutation(
 )
 ```
 
-## Project Structure
+## Folder Structure
+
+Layout mirrors the sibling Python package [`playerdatapy`](https://github.com/PlayerData/playerdatapy) where it makes sense.
 
 ```
-playerdatar/              # repo root
+playerdatar/                  # repo root
 ├── README.md
 ├── LICENSE
-├── playerdatar/          # R package
-│   ├── R/                # Package source
-│   │   ├── client.R      # GraphQL client creation
-│   │   ├── oauth.R       # OAuth 2 flows
-│   │   ├── operations.R  # execute_query, execute_mutation
-│   │   └── utils.R       # Utilities
-│   ├── queries/          # Example GraphQL queries and mutations
-│   │   ├── sports.graphql
-│   │   ├── club_sessions.graphql
-│   │   ├── club_sessions_filtered_by_time_range.graphql
-│   │   ├── session_details.graphql
-│   │   ├── session_metrics.graphql
-│   │   ├── session_participations_urls.graphql
-│   │   └── update_session.graphql
-│   ├── example_using_client_credentials.r
-│   ├── example_using_authorization_code.r
+├── playerdatar/              # R package
+│   ├── AGENTS.md / CLAUDE.md # AI-assistant instructions
+│   ├── DESCRIPTION
+│   ├── NAMESPACE
+│   ├── R/                    # Package source
+│   │   ├── client.R          # GraphQL client creation
+│   │   ├── oauth.R           # OAuth 2 flows
+│   │   ├── operations.R      # execute_query, execute_mutation
+│   │   └── utils.R           # Utilities
+│   ├── examples/
+│   │   └── direct/           # Raw-GraphQL quick starts
+│   │       ├── queries/      # *.graphql query files
+│   │       ├── quick_start_client_credentials.R
+│   │       ├── quick_start_authorization_code.R
+│   │       └── README.md
+│   ├── schema.graphql        # Reference schema (vendored from playerdatapy)
+│   ├── tests/testthat/       # Unit tests
+│   ├── man/                  # roxygen2 docs
 │   └── vignettes/
 ```
 
 ### Example Queries
 
-GraphQL queries and mutations are stored as `.graphql` files in `playerdatar/queries/`. The example scripts load these files and pass them to `execute_query()` or `execute_mutation()`. For queries with variables, use `query_name` to match the operation name in the file (e.g. `SessionDetails` for `session_details.graphql`).
+GraphQL queries and mutations live as `.graphql` files in `playerdatar/examples/direct/queries/`. The example scripts load these files and pass them to `execute_query()` or `execute_mutation()`. For queries with variables, use `query_name` to match the operation name in the file (e.g. `SessionDetails` for `session_details.graphql`).
 
 ```r
-# Load a query from file (run from playerdatar/ package directory)
 read_query <- function(filename) {
-  paste(readLines(file.path("queries", filename), warn = FALSE), collapse = "\n")
+  paste(readLines(file.path("examples/direct/queries", filename), warn = FALSE), collapse = "\n")
 }
 
 result <- execute_query(
@@ -177,4 +181,8 @@ result <- execute_query(
 - Simple API for queries and mutations
 - Built on `ghql` package
 
-See `playerdatar/example_using_client_credentials.r` and `playerdatar/example_using_authorization_code.r` for more examples.
+See `playerdatar/examples/direct/` for runnable quick starts and the full set of example queries.
+
+## Related Projects
+
+- [`playerdatapy`](https://github.com/PlayerData/playerdatapy) — sibling Python package. Same API, typed `PlayerDataAPI` available alongside the direct client.
