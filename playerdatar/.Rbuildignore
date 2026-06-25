@@ -2,3 +2,7 @@
 ^gqlr_client/$
 ^\.token$
 ^\.Rproj\.user$
+^examples$
+^schema\.graphql$
+^AGENTS\.md$
+^CLAUDE\.md$

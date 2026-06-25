@@ -1,15 +1,17 @@
-# Simple example of using the GraphQL R wrapper (client credentials flow)
+# Quick start: client credentials OAuth flow.
 #
-# Uses the same query files as example_using_authorization_code.r.
-# Run from playerdatar/playerdatar/ or adjust queries_dir.
+# Sibling example: quick_start_authorization_code.R (same queries).
+# Run from this directory, or from repo root, or from playerdatar/.
 
 library(playerdatar)
 
-# Path to queries directory
-queries_dir <- "queries"
-if (!dir.exists(queries_dir)) {
-  queries_dir <- file.path("playerdatar", "queries")
-}
+candidate_dirs <- c(
+  "queries",
+  "examples/direct/queries",
+  file.path("playerdatar", "examples", "direct", "queries")
+)
+queries_dir <- Find(dir.exists, candidate_dirs)
+if (is.null(queries_dir)) stop("Could not locate queries directory.")
 read_query <- function(filename) {
   paste(readLines(file.path(queries_dir, filename), warn = FALSE), collapse = "\n")
 }
