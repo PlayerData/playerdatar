@@ -15,8 +15,8 @@ parseQueryString <- function(query_string) {
   for (param in params) {
     parts <- strsplit(param, "=")[[1]]
     if (length(parts) == 2) {
-      key <- httr::URLdecode(parts[1])
-      value <- httr::URLdecode(parts[2])
+      key <- utils::URLdecode(parts[1])
+      value <- utils::URLdecode(parts[2])
       result[[key]] <- value
     }
   }
