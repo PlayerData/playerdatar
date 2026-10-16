@@ -1,4 +1,4 @@
-mutation UpdateSession($id: ID!, $attributes: SessionAttributesInput!) {
+mutation UpdateSession($id: ID!, $attributes: MutateSessionAttributes!) {
   updateSession(id: $id, attributes: $attributes) {
     errors {
       fullMessages
