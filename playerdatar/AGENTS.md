@@ -6,7 +6,7 @@ Repo-specific guidance for AI assistants (Claude Code, Cursor, etc.). Humans, sk
 
 - R package `playerdatar` — thin GraphQL client for the PlayerData API, built on `ghql` + `httr`.
 - Sibling Python package: [`playerdatapy`](https://github.com/PlayerData/playerdatapy). Structure here mirrors that repo where it makes sense (`examples/direct/`, `schema.graphql`, `tests/`).
-- Reference GraphQL schema vendored at `schema.graphql` (copy of playerdatapy's). Use it when authoring new queries.
+- Reference GraphQL schema vendored at `schema.graphql` (copy of the API's published `public/schema.graphql`). Use it when authoring new queries.
 - Examples in `examples/direct/` (raw GraphQL via `execute_query()`). No typed-codegen path exists in R; the package is direct-only.
 
 ## Layout

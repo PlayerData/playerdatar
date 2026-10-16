@@ -105,7 +105,7 @@ result <- execute_query(
 
 ```r
 mutation <- '
-mutation UpdateSession($id: ID!, $attributes: SessionAttributesInput!) {
+mutation UpdateSession($id: ID!, $attributes: MutateSessionAttributes!) {
   updateSession(id: $id, attributes: $attributes) {
     errors {
       fullMessages
@@ -151,7 +151,7 @@ playerdatar/                  # repo root
 │   │       ├── quick_start_client_credentials.R
 │   │       ├── quick_start_authorization_code.R
 │   │       └── README.md
-│   ├── schema.graphql        # Reference schema (vendored from playerdatapy)
+│   ├── schema.graphql        # Reference schema (copy of the API's public/schema.graphql)
 │   ├── tests/testthat/       # Unit tests
 │   ├── man/                  # roxygen2 docs
 │   └── vignettes/
